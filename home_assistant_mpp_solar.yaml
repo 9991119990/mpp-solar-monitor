@@ -1,0 +1,216 @@
+binary_sensor:
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  icon: mdi:power
+  name: MPP Solar Load Status
+  payload_off: '0'
+  payload_on: '1'
+  state_topic: homeassistant/binary_sensor/mpp_solar/is_load_on/state
+  unique_id: mpp_solar_is_load_on
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  icon: mdi:battery-charging
+  name: MPP Solar SCC Charging
+  payload_off: '0'
+  payload_on: '1'
+  state_topic: homeassistant/binary_sensor/mpp_solar/is_scc_charging_on/state
+  unique_id: mpp_solar_is_scc_charging_on
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  icon: mdi:power-plug
+  name: MPP Solar AC Charging
+  payload_off: '0'
+  payload_on: '1'
+  state_topic: homeassistant/binary_sensor/mpp_solar/is_ac_charging_on/state
+  unique_id: mpp_solar_is_ac_charging_on
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  icon: mdi:battery-plus
+  name: MPP Solar Charging Status
+  payload_off: '0'
+  payload_on: '1'
+  state_topic: homeassistant/binary_sensor/mpp_solar/is_charging_on/state
+  unique_id: mpp_solar_is_charging_on
+sensor:
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: voltage
+  icon: mdi:lightning
+  name: MPP Solar AC Input Voltage
+  state_topic: homeassistant/sensor/mpp_solar/ac_input_voltage/state
+  unique_id: mpp_solar_ac_input_voltage
+  unit_of_measurement: V
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: voltage
+  icon: mdi:power-plug
+  name: MPP Solar AC Output Voltage
+  state_topic: homeassistant/sensor/mpp_solar/ac_output_voltage/state
+  unique_id: mpp_solar_ac_output_voltage
+  unit_of_measurement: V
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: power
+  icon: mdi:flash
+  name: MPP Solar AC Output Power
+  state_topic: homeassistant/sensor/mpp_solar/ac_output_active_power/state
+  unique_id: mpp_solar_ac_output_active_power
+  unit_of_measurement: W
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  icon: mdi:gauge
+  name: MPP Solar AC Output Load
+  state_topic: homeassistant/sensor/mpp_solar/ac_output_load/state
+  unique_id: mpp_solar_ac_output_load
+  unit_of_measurement: '%'
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: voltage
+  icon: mdi:battery
+  name: MPP Solar Battery Voltage
+  state_topic: homeassistant/sensor/mpp_solar/battery_voltage/state
+  unique_id: mpp_solar_battery_voltage
+  unit_of_measurement: V
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: current
+  icon: mdi:battery-charging
+  name: MPP Solar Battery Charging Current
+  state_topic: homeassistant/sensor/mpp_solar/battery_charging_current/state
+  unique_id: mpp_solar_battery_charging_current
+  unit_of_measurement: A
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: current
+  icon: mdi:battery-minus
+  name: MPP Solar Battery Discharge Current
+  state_topic: homeassistant/sensor/mpp_solar/battery_discharge_current/state
+  unique_id: mpp_solar_battery_discharge_current
+  unit_of_measurement: A
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: battery
+  icon: mdi:battery
+  name: MPP Solar Battery Capacity
+  state_topic: homeassistant/sensor/mpp_solar/battery_capacity/state
+  unique_id: mpp_solar_battery_capacity
+  unit_of_measurement: '%'
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: power
+  icon: mdi:battery-lightning
+  name: MPP Solar Battery Power
+  state_topic: homeassistant/sensor/mpp_solar/battery_power/state
+  unique_id: mpp_solar_battery_power
+  unit_of_measurement: W
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: voltage
+  icon: mdi:solar-power
+  name: MPP Solar PV Input Voltage
+  state_topic: homeassistant/sensor/mpp_solar/pv_input_voltage/state
+  unique_id: mpp_solar_pv_input_voltage
+  unit_of_measurement: V
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: current
+  icon: mdi:solar-power
+  name: MPP Solar PV Input Current
+  state_topic: homeassistant/sensor/mpp_solar/pv_input_current_for_battery/state
+  unique_id: mpp_solar_pv_input_current_for_battery
+  unit_of_measurement: A
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: power
+  icon: mdi:solar-power
+  name: MPP Solar PV Power
+  state_topic: homeassistant/sensor/mpp_solar/pv_power_calculated/state
+  unique_id: mpp_solar_pv_power_calculated
+  unit_of_measurement: W
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  device_class: temperature
+  icon: mdi:thermometer
+  name: MPP Solar Inverter Temperature
+  state_topic: homeassistant/sensor/mpp_solar/inverter_heat_sink_temperature/state
+  unique_id: mpp_solar_inverter_heat_sink_temperature
+  unit_of_measurement: °C
+- device:
+    identifiers:
+    - mpp_solar_pip5048mg
+    manufacturer: MPP Solar
+    model: PIP5048MG
+    name: MPP Solar PIP5048MG
+  icon: mdi:percent
+  name: MPP Solar Inverter Efficiency
+  state_topic: homeassistant/sensor/mpp_solar/efficiency/state
+  unique_id: mpp_solar_efficiency
+  unit_of_measurement: '%'
