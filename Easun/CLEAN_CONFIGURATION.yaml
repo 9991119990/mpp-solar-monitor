@@ -1,0 +1,169 @@
+# Clean Home Assistant Configuration
+# Copy this entire file content to replace your configuration.yaml
+
+# EASUN Communication via mpp-solar
+shell_command:
+  read_easun: 'mpp-solar -p /dev/ttyUSB0 -P PI30 -c QPIGS -o json'
+
+sensor:
+  - platform: command_line
+    name: "EASUN Data"
+    command: 'mpp-solar -p /dev/ttyUSB0 -P PI30 -c QPIGS -o json'
+    scan_interval: 30
+    value_template: '{{ value_json.battery_voltage.value | default("unknown") }}'
+
+# Template sensors
+template:
+  - sensor:
+      # Battery Power sensors (separate charge/discharge)
+      - name: "JKBMS Battery Charge Power"
+        unique_id: jkbms_battery_charge_power
+        device_class: power
+        unit_of_measurement: W
+        state_class: measurement
+        state: >
+          {% set p = states('sensor.jk_b2a24s15p_baterie_power') | float(0) %}
+          {{ [0, p] | max | round(1) }}
+        availability: "{{ states('sensor.jk_b2a24s15p_baterie_power') not in ['unavailable','unknown'] }}"
+
+      - name: "JKBMS Battery Discharge Power"
+        unique_id: jkbms_battery_discharge_power
+        device_class: power
+        unit_of_measurement: W
+        state_class: measurement
+        state: >
+          {% set p = states('sensor.jk_b2a24s15p_baterie_power') | float(0) %}
+          {{ [0, -p] | max | round(1) }}
+        availability: "{{ states('sensor.jk_b2a24s15p_baterie_power') not in ['unavailable','unknown'] }}"
+
+      - name: "Celkový příkon"
+        unique_id: celkovy_prikon_template
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {% set a = states('sensor.easun_prikon') | float(0) %}
+          {% set b = states('sensor.jistic_2_prikon') | float(0) %}
+          {{ (a + b) | round(1) }}
+        availability: >
+          {{ states('sensor.easun_prikon') not in ['unavailable','unknown']
+             and states('sensor.jistic_2_prikon') not in ['unavailable','unknown'] }}
+
+      - name: "Max Teplota Bojleru 24h Korigovana"
+        unique_id: max_teplota_bojleru_24h_korigovana
+        device_class: temperature
+        unit_of_measurement: "°C"
+        state_class: measurement
+        state: >
+          {{ (states('sensor.max_teplota_bojleru_24h') | float(0) / 10) | round(1) }}
+        availability: "{{ states('sensor.max_teplota_bojleru_24h') not in ['unavailable','unknown'] }}"
+
+      - name: "Odhadovany Solarni Vykon"
+        unique_id: estimated_solar_production_power
+        icon: mdi:solar-power
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {% set load1 = states('sensor.easun_prikon') | float(0) %}
+          {% set load2 = states('sensor.jistic_2_prikon') | float(0) %}
+          {% set battery_power = states('sensor.jk_b2a24s15p_baterie_power') | float(0) %}
+          {% set estimated_solar = load1 + load2 + battery_power %}
+          {{ [0, estimated_solar] | max | round(1) }}
+        availability: >
+          {{ states('sensor.easun_prikon') not in ['unavailable','unknown']
+             and states('sensor.jistic_2_prikon') not in ['unavailable','unknown']
+             and states('sensor.jk_b2a24s15p_baterie_power') not in ['unavailable','unknown'] }}
+
+      - name: "Baterie Vykon Pro Kartu"
+        unique_id: battery_power_for_card
+        icon: mdi:swap-horizontal-bold
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {{ (states('sensor.jk_b2a24s15p_baterie_power') | float(0) * -1) | round(1) }}
+        availability: >
+          {{ states('sensor.jk_b2a24s15p_baterie_power') not in ['unavailable','unknown'] }}
+
+      - name: "Baterie Nabijeni Pro Kartu"
+        unique_id: battery_charge_for_card
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {% set p = states('sensor.baterie_vykon_pro_kartu') | float(0) %}
+          {{ [0, -p] | max | round(1) }}
+
+      - name: "Baterie Vybijeni Pro Kartu"
+        unique_id: battery_discharge_for_card
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {% set p = states('sensor.baterie_vykon_pro_kartu') | float(0) %}
+          {{ [0, p] | max | round(1) }}
+
+# MQTT sensors for PIP5048
+mqtt:
+  sensor:
+    - name: "PIP5048 AC Output W"
+      unique_id: pip5048_ac_output_w
+      state_topic: "mppsolar/inverter/QPIGS"
+      value_template: "{{ value_json.ac_output_active_power.value }}"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+# Modbus RTU connection to Easun SMH II
+modbus:
+  - name: easun_smh
+    type: serial
+    method: rtu
+    port: /dev/ttyUSB0
+    baudrate: 9600
+    bytesize: 8
+    parity: N
+    stopbits: 1
+    timeout: 1
+
+    sensors:
+      - name: "Easun Mains Voltage"
+        slave: 1
+        address: 202
+        input_type: holding
+        data_type: int16
+        scale: 0.1
+        unit_of_measurement: "V"
+
+      - name: "Easun Battery Voltage"
+        slave: 1
+        address: 215
+        input_type: holding
+        data_type: int16
+        scale: 0.1
+        unit_of_measurement: "V"
+
+      - name: "Easun PV Voltage"
+        slave: 1
+        address: 219
+        input_type: holding
+        data_type: int16
+        scale: 0.1
+        unit_of_measurement: "V"
+
+      - name: "Easun Battery SoC"
+        slave: 1
+        address: 229
+        input_type: holding
+        data_type: uint16
+        scale: 1
+        unit_of_measurement: "%"
+
+      - name: "Easun Output Power"
+        slave: 1
+        address: 214
+        input_type: holding
+        data_type: int16
+        scale: 1
+        unit_of_measurement: "W"

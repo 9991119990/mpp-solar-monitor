@@ -1,0 +1,14 @@
+[Unit]
+Description=EASUN Solar Data Sender for Home Assistant
+After=network.target
+
+[Service]
+Type=simple
+User=dell
+WorkingDirectory=/home/dell/Měniče/Easun
+ExecStart=/home/dell/Měniče/Easun/send_easun_data.sh
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target

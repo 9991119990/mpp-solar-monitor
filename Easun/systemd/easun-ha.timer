@@ -1,0 +1,10 @@
+[Unit]
+Description=Run easun-ha.service every 5 seconds
+
+[Timer]
+OnBootSec=15s
+OnUnitActiveSec=5s
+Unit=easun-ha.service
+
+[Install]
+WantedBy=timers.target
