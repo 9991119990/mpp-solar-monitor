@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Backups/archives
+*.tar.gz
+*.zip
+*.bak
+
+# HA/Local
+.secret*
+*.local
+
+# Nested repos
+mpp-solar-addon/
